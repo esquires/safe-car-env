@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 88
+exclude=msg_pb2.py
+extend-ignore = E203
+per-file-ignores =
+    viewer_utils.py: E402
+    car_viewer.py: E402

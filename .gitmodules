@@ -1,0 +1,3 @@
+[submodule "submodules/rlgear"]
+	path = submodules/rlgear
+	url = https://github.com/esquires/rlgear

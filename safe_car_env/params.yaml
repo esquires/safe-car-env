@@ -1,0 +1,164 @@
+dbl-int:
+  actuator_lims: {low: [-1], high: [1]}
+
+  dynamics:
+    dt: 0.1
+
+  a_tilde:
+    # just within the actuator limits
+    a_minus: -0.99
+    a_plus: 0.99
+
+  do_render: false
+  save_frames: true
+
+  env:
+    init_pos_bounds: [0, 10]
+    init_vel_bounds: [0, 5]
+    max_timesteps: 100
+
+  policy_graph_params:
+    min_logp: -5
+    max_logp: 5
+
+    impulse_height_pct: 0.4
+    impulse_arrow_height_pct: 0.1
+    impulse_arrow_width_pct: 0.02
+
+  viewer:
+    x_axis: [[0.05, 0.95], [0.05, 0.05]]
+    y_axis: [0.05, 0.30]
+
+    pos_to_x: [-3, 30]
+
+    x_tick_sep: 5
+    x_tick_offsets: [-0.02, 0]
+
+    width: 1500
+    height: 450
+
+    agent_width: 0.03
+
+    text_pos: [0.05, 0.50]
+    text_y_sep: 0.05
+
+    done_delay_sec: 2
+
+    graph_x: [0.5, 0.95]
+    graph_y: [0.5, 0.95]
+
+car:
+
+  # sources
+  # [1] Polack, Philip, et al. "The kinematic bicycle model: A
+  #     consistent model for planning feasible trajectories for
+  #     autonomous vehicles?." 2017 IEEE intelligent vehicles
+  #     symposium (IV). IEEE, 2017.
+  #     https://ieeexplore.ieee.org/abstract/document/7995816
+  # [2] Bokare, Prashant Shridhar, and Akhilesh Kumar Maurya.
+  #     "Acceleration-deceleration behaviour of various vehicle types."
+  #     Transportation research procedia 25 (2017): 4733-4749.
+  #     https://www.sciencedirect.com/science/article/pii/S2352146517307937
+  # [3] Ames, Aaron D., et al. "Control barrier function based quadratic
+  #     programs for safety critical systems." IEEE Transactions on Automatic
+  #     Control 62.8 (2016): 3861-3876.
+  #     https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7782377
+
+  car_params:
+    # [1], see section V in the intro
+    length_front: 1.17
+    length_rear: 1.77
+
+    # [3] uses 6 ft. which is 1.8288 meters
+    width: 1.8288
+
+  actuator_lims:
+    # [3] uses 0.3 * 9.81 for deceleration which is about the same as 2.87.
+    # using 1 degrees degrees for steering angle from [1]
+    low: [-2.87, -1]
+    high: [2.87, 1]
+
+  safety_spec:
+    # given W_lane and car width we have (W_lane - car_width) / 2 = (3.6 - 1.8288) / 2
+    # on either side so setting to 0.5
+    D_lead: 10.0  # set to longer than a car length
+    tau: 1.8  # [3], see section V.A
+    v_lim_miles_per_hour: 70
+
+  # https://safety.fhwa.dot.gov/geometric/pubs/mitigationstrategies/chapter3/3_lanewidth.cfm
+  W_lane: 3.6
+
+  a_tilde:
+    # just within the actuator limits
+    a_minus: -2.86
+    a_plus: 2.86
+
+  dynamics:
+    dt: 0.1
+    
+  env:
+    lead_veh:
+      speed_range_mph: [0, 70]
+      cruise_interval: [0, 5]
+      start_x_lims: [200, 500]
+
+    speed_tgt_mph: 70
+    max_timesteps: 1000
+
+    obs_scale: 50
+    obs_shift: 100
+    rew_scale: 0.01
+
+    pct_brake: 0.01
+    do_render: false
+    save_frames: true
+
+  legend_params:
+    y_sep: 0.03
+    x_sep: 0.005
+    line_len: 0.02
+
+  policy_graph_params:
+    min_logp: -5
+    max_logp: 5
+
+    impulse_height_pct: 0.4
+    impulse_arrow_height_pct: 0.1
+    impulse_arrow_width_pct: 0.02
+
+  viewer:
+    W_lane_render: 0.05
+    road_beg_x: 0.07
+    road_end_x: 0.70
+    road_start_y: 0.15
+
+    dash_width_m: 10
+    dash_step_m: 20
+
+    vel_y: 0.75
+    vel_height: 0.10
+    vel_text_sep: 0.05
+
+    vel_x: 0.10
+    vel_x_sep: 0.10
+    vel_width: 0.03
+
+    time_x: 0.02
+    time_y: 0.95
+
+    width: 1500
+    height: 600
+    car_img_scale: 0.02
+
+    done_delay_sec: 2
+    done_msg_x: 0.02
+    done_msg_y: 0.70
+
+    vel_graph_x: [0.71, 0.99]
+    vel_graph_y: [0.70, 0.99]
+
+    steering_graph_x: [0.71, 0.99]
+    steering_graph_y: [0.36, 0.65]
+
+    constraint_graph_x: [0.71, 0.99]
+    constraint_graph_y: [0.01, 0.32]

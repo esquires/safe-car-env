@@ -1,0 +1,11 @@
+tags*
+__pycache__
+*.pyc
+latest
+*.egg-info
+build
+tmp
+.mypy_cache
+.dmypy.json
+*.prof
+scrimmage
